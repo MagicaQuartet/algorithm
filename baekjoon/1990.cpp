@@ -1,7 +1,7 @@
 // Baekjoon Online Judge #1990
 // (Math)
 
-#include <iostream>
+#include <cstdio>
 #include <cmath>
 
 using namespace std;
@@ -10,7 +10,7 @@ bool check_first_digit(int n) {
 	if (n == 5)
 		return true;
 	else 
-		return n % 10 == 1 || n % 10 == 3 || n % 10 == 7 || n % 10 == 9 ? true : false;
+		return (n % 10) % 2 == 1;
 }
 
 bool is_prime(int n) {
@@ -58,19 +58,16 @@ bool is_palindrome(int n) {
 
 int main() {
 	int a, b;
-	cin >> a >> b;
+	scanf("%d %d", &a, &b);
 
-	for (int i = a; i <= b; i++) {
+	for (int i = a; i <= b && i < 10000000; i++) {
 		if (check_first_digit(i) && is_palindrome(i) && is_prime(i))
-			cout << i << endl;
+			printf("%d\n", i);
 	}
 
-	cout << - 1 << endl;
+	printf("-1\n");
 	return 0;
 }
 
-/*
-그냥 모든 수를 다 돌면서 팰린드롬이면서 소수인 수를 찾으려니까 시간 초과가 된다.
-10 이상의 소수는 1의 자리 수가 모두 1, 3, 7, 9 중 하나라고 생각하여 이 조건도 걸어주었더니
-통과가 되었다. 시간 복잡도는 똑같을텐데..
- */
+/* 8자리 이상의 소수 중에는 팰린드롬이 없다는 조건을 걸어주니 통과하기는 했다... */
+/* 팰린드롬 찾는 방법을 더 개선시킬 수 있을 것 같다. */
