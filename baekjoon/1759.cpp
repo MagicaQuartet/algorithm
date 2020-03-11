@@ -12,20 +12,40 @@ int checkMoeum(char c) {
     return 0;
 }
 
-int makeCrypto(vector<char> &all, vector<char> &selected, int ja, int mo, int idx) {
+void makeCrypto(vector<char> &data, vector<char> &selected, int mo, int idx) {
+  if (idx == C) {
+    if (selected.size() == L && mo >= 1 && L-mo >= 2) {
+      for (auto c : selected) {
+        printf("%c", c);
+      }
+      printf("\n");
+    }
+    
+    return;
+  }
   
+  selected.push_back(data[idx]);
+  makeCrypto(data, selected, mo+checkMoeum(data[idx]), idx+1);
+  selected.pop_back();
+  makeCrypto(data, selected, mo, idx+1);
+  return;
 }
 
 int main() {
   char c;
-  vector<char> all;
+  vector<char> data;
   
   scanf("%d %d", &L, &C);
+  data.reserve(C);
   for (int i=0; i<C; i++) {
-    scanf("%c", &c);
-    all.push_back(c);
+    do {
+      scanf("%c", &c);
+    } while (c == '\n' || c == ' ');
+    data.push_back(c);
   }
+  sort(data.begin(), data.end());
   
-  makeCrypto(all, vector<char>(), 0, 0, 0);
+  vector<char> v;
+  makeCrypto(data, v, 0, 0);
   return 0;
 }
