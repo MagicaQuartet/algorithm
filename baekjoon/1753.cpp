@@ -1,82 +1,63 @@
-// Baekjoon Online Judge #1753
-// (Dijkstra)
-
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <utility>
-#include <functional>
-
+#include<cstdio>
+#include<vector>
+#include<queue>
+#include<utility>
+#define INF 987654321
+#define pii pair<int, int>
 using namespace std;
-/*
+
 struct cmp {
-	bool operator() (pair<int, int> t, pair<int, int> u) {
-		return t.second < u.second;
+	bool operator() (pii lhs, pii rhs) {
+		return lhs.second > rhs.second;
 	}
 };
-*/
+
+int V, E, K, u, v, w;
+vector<vector<pii > > graph;
+int dist[20010];
 
 int main() {
-	int V, E, start;
-	cin >> V >> E >> start;
-
-	int *d = new int[V];
-	vector<vector<pair<int, int>>> e;
-
-	for (int i = 0; i < V; i++) {
-		d[i] = -1;
-		e.push_back(vector<pair<int, int>>());
-	}
-	d[start - 1] = 0;
-
-	//priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
-	queue<pair<int, int>> q;
-
-	for (int i = 0; i < E; i++) {
-		int src, dest, value;
-		cin >> src >> dest >> value;
-
-		e[src-1].push_back(make_pair(dest, value));
+	scanf("%d %d %d", &V, &E, &K);
+	graph = vector<vector<pii > >(V+1, vector<pii >());
+	for (int i=1; i<=V; i++) {
+		dist[i] = INF;
 	}
 
-	for (vector<pair<int, int>>::iterator it=e[start-1].begin(); it!=e[start-1].end(); ++it) {
-		pair<int, int> adj_data = *it;
-		pair<int, int> candidate (adj_data);
-		
-		q.push(candidate);
+	for (int i=0; i<E; i++) {
+		scanf("%d %d %d", &u, &v, &w);
+		graph[u].push_back({v, w});
 	}
 
-	while (!q.empty()) {
-		pair<int, int> candidate = q.front();
-		q.pop();
+	dist[K] = 0;
+	priority_queue<pii, vector<pii >, cmp> pq;
+	for (auto child: graph[K]) {
+		pq.push(child);
+	}
 
-		int end = candidate.first;
-		int dist = candidate.second;
+	while (!pq.empty()) {
+		int node = pq.top().first;
+		int d = pq.top().second;
+		pq.pop();
+		if (dist[node] <= d) {
+			continue;
+		}
 
-		if (d[end-1] == -1 || d[end-1] > dist) {
-			d[end-1] = dist;
-			for (vector<pair<int, int>>::iterator it=e[end-1].begin(); it!=e[end-1].end(); ++it) {
-				pair<int, int> adj_data = *it;
-				pair<int, int> _candidate (adj_data);
-
-				_candidate.second += dist;
-				q.push(_candidate);
+		dist[node] = d;
+		for (auto child: graph[node]) {
+			if (dist[child.first] <= d+child.second) {
+				continue;
 			}
+
+			pq.push({child.first, d+child.second});
 		}
 	}
 
-	for (int i = 0; i < V; i++) {
-		if (d[i] == -1)
-			cout << "INF" << endl;
-		else
-			cout << d[i] << endl;
+	for (int i=1; i<=V; i++) {
+		if (dist[i] != INF) {
+			printf("%d\n", dist[i]);
+		}
+		else {
+			printf("INF\n");
+		}
 	}
-
-	return 0;
 }
-
-/*
-다익스트라 알고리즘을 이용하는 간단한 유형의 문제이다.
-그런데 일반적으로 다익스트라 알고리즘에서 heap (C++에서는 priority queue로 해결)을 이용하라고 하는데,
-이 코드에서는 오히려 queue를 썼을 때 보다 더 오래 걸린다. 내가 잘못 짰나?
- */
