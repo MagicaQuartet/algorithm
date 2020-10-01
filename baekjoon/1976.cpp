@@ -42,7 +42,7 @@ int main() {
 	head = -1;
 	for (int i = 0; i < M; i++) {
 		scanf("%d", &temp);
-
+		temp--;
 		if (head == -1)
 			head = find(parent, temp);
 		else if (head != find(parent, temp)) {
