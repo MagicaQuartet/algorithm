@@ -42,6 +42,7 @@ int main() {
       for (pii edge: graph[src]) {
         int dst = edge.first;
         int cost = edge.second;
+        if (dist[src] == INF) continue;
         originalDist[dst] = dist[dst] = min(dist[dst], dist[src]+cost);
       }
     }
@@ -51,6 +52,7 @@ int main() {
     for (pii edge: graph[src]) {
       int dst = edge.first;
       int cost = edge.second;
+      if (dist[src] == INF) continue;
       dist[dst] = min(dist[dst], dist[src]+cost);
     }
   }
