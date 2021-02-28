@@ -3,3 +3,4 @@
 goorm.manifest
 main
 .vscode
+**/.DS_Store
