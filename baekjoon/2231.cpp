@@ -13,7 +13,7 @@ int solve(vector<int>& digits, int cnt, int N) {
 		}
 		
 		if (result_n + result_digit == N) {
-			cout << result_n << endl;
+			cout << result_n << "\n";
 			return true;
 		}
 		
@@ -69,8 +69,14 @@ int main() {
 		ret = solve(container, cnt-1, N);
 	}
 	
-	if (!ret)
-		cout << 0 << endl;
+	if (!ret) {
+		if (cnt == 1 && N%2 == 0) {
+			cout << N/2 << "\n";
+		}
+		else {
+			cout << 0 << "\n";
+		}
+	}
 	
 	return 0;
 }
