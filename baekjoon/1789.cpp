@@ -3,14 +3,9 @@
 ll S, acc, ans;
 int main() {
   scanf("%lld", &S);
-  acc = 0;
-
-  for (ll cnt = 1; cnt <= S; cnt++) {
-    acc += cnt;
-    if (acc > S) {
-      ans = cnt - 1;
-      break;
-    }
+  ll ans = 1;
+  while (ans * (ans + 1) / 2 <= S) {
+    ans++;
   }
-  printf("%lld\n", ans);
+  printf("%lld\n", ans - 1);
 }
