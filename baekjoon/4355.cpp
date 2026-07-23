@@ -1,23 +1,33 @@
 #include<cstdio>
 #include<vector>
+#define ll long long
 using namespace std;
-int n, ans;
+ll n, _n, ans;
+// 소수 목록 구하기
 int main() {
   while (1) {
-    scanf("%d", &n);
+    scanf("%lld", &n);
     if (!n) break;
-    ans = n;
-    if (n%2 == 0) {
-      ans /= 2;
-      while (n%2 == 0) n /= 2;
-    }
-    for (int i=3; i*i<=n; i+=2) {
-      if (n%i == 0) {
-        ans = (ans / i) * (i-1);
-        while (n%i == 0) n /= i;
+    _n = n;
+    ans = 1;
+    bool prime = true;
+    for (ll i = 2; i * i <= n; i++) {
+      if (_n == 1) {
+        break;
       }
+      if (_n % i) {
+        continue;
+      }
+      prime = false;
+      while (_n % i == 0) {
+        ans *= i;
+        _n /= i;
+      }
+      ans = (ans / i) * (i - 1);
     }
-    if (n > 1) ans = (ans / n) * (n-1);
-    printf("%d\n", ans);
+    if (prime) {
+      ans = n - 1;
+    }
+    printf("%lld\n", ans);
   }
 }
